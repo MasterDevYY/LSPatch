@@ -13,9 +13,24 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Ballot
 import androidx.compose.material.icons.outlined.BugReport
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.outlined.Dns
+import androidx.compose.material.icons.outlined.Merge
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,6 +45,7 @@ import org.lsposed.lspatch.config.Configs
 import org.lsposed.lspatch.config.MyKeyStore
 import org.lsposed.lspatch.ui.component.AnywhereDropdown
 import org.lsposed.lspatch.ui.component.CenterTopBar
+import org.lsposed.lspatch.ui.component.settings.CategoryHeader
 import org.lsposed.lspatch.ui.component.settings.SettingsItem
 import org.lsposed.lspatch.ui.component.settings.SettingsSwitch
 import java.io.IOException
@@ -48,8 +64,13 @@ fun SettingsScreen() {
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
         ) {
+            CategoryHeader(stringResource(R.string.settings_group_framework))
             KeyStore()
             DetailPatchLogs()
+            CategoryHeader(stringResource(R.string.settings_group_network))
+            DoHSettings()
+            CategoryHeader(stringResource(R.string.settings_group_repo))
+            RepoUpdateChannelSettings()
         }
     }
 }
@@ -239,4 +260,69 @@ private fun DetailPatchLogs() {
         icon = Icons.Outlined.BugReport,
         title = stringResource(R.string.settings_detail_patch_logs)
     )
+}
+
+
+@Composable
+private fun DoHSettings() {
+    SettingsSwitch(
+        modifier = Modifier.clickable { Configs.useDoH = !Configs.useDoH },
+        checked = Configs.useDoH,
+        icon = Icons.Outlined.Dns,
+        title = stringResource(R.string.settings_dns_over_http),
+        desc = stringResource(R.string.settings_dns_over_http_summary)
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun RepoUpdateChannelSettings() {
+    var expanded by remember { mutableStateOf(false) }
+
+    val stableChannel = stringResource(R.string.settings_update_channel_stable)
+    val betaChannel = stringResource(R.string.settings_update_channel_beta)
+    val nightlyChannel = stringResource(R.string.settings_update_channel_nightly)
+
+    val channelMap = mapOf(
+        "CHANNEL_STABLE" to stableChannel,
+        "CHANNEL_BETA" to betaChannel,
+        "CHANNEL_NIGHTLY" to nightlyChannel
+    )
+
+    val currentChannelText = channelMap[Configs.repoUpdateChannel] ?: stableChannel
+
+    AnywhereDropdown(
+        expanded = expanded,
+        onDismissRequest = { expanded = false },
+        onClick = { expanded = true },
+        surface = {
+            SettingsItem(
+                icon = Icons.Outlined.Merge,
+                title = stringResource(R.string.settings_update_channel),
+                desc = currentChannelText
+            )
+        }
+    ) {
+        DropdownMenuItem(
+            text = { Text(stableChannel) },
+            onClick = {
+                Configs.repoUpdateChannel = "CHANNEL_STABLE"
+                expanded = false
+            }
+        )
+        DropdownMenuItem(
+            text = { Text(betaChannel) },
+            onClick = {
+                Configs.repoUpdateChannel = "CHANNEL_BETA"
+                expanded = false
+            }
+        )
+        DropdownMenuItem(
+            text = { Text(nightlyChannel) },
+            onClick = {
+                Configs.repoUpdateChannel = "CHANNEL_NIGHTLY"
+                expanded = false
+            }
+        )
+    }
 }

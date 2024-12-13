@@ -92,4 +92,13 @@
     <string name="settings_detail_patch_logs">Detail patch logs</string>
     <string name="patch_inject_dex">Inject loader dex</string>
     <string name="patch_inject_dex_desc">For applications with isolated services, such as the render engines of browsers, please turn on this option to ensure that they work properly.</string>
+    <string name="settings_group_framework">Framework</string>
+    <string name="settings_group_network">Network</string>
+    <string name="settings_dns_over_http">DNS over HTTPS</string>
+    <string name="settings_dns_over_http_summary">Workaround DNS poisoning in some nations</string>
+    <string name="settings_group_repo">Repository</string>
+    <string name="settings_update_channel">Update channel</string>
+    <string name="settings_update_channel_stable">Stable</string>
+    <string name="settings_update_channel_beta">Beta</string>
+    <string name="settings_update_channel_nightly">Nightly Build</string>
 </resources>

@@ -88,4 +88,13 @@
     <string name="settings_detail_patch_logs">详细修补日志</string>
     <string name="patch_inject_dex">注入加载器 Dex</string>
     <string name="patch_inject_dex_desc">对那些需要孤立服务进程的应用程序，譬如说浏览器的渲染引擎，请勾选此选项以确保他们正常运行</string>
+    <string name="settings_group_framework">框架</string>
+    <string name="settings_group_network">网络</string>
+    <string name="settings_dns_over_http">安全 DNS（DoH）</string>
+    <string name="settings_dns_over_http_summary">解决某些地区的 DNS 污染问题</string>
+    <string name="settings_group_repo">仓库</string>
+    <string name="settings_update_channel">模块更新频道</string>
+    <string name="settings_update_channel_stable">稳定版</string>
+    <string name="settings_update_channel_beta">测试版</string>
+    <string name="settings_update_channel_nightly">每夜版</string>
 </resources>

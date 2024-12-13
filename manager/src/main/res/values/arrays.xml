@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="update_channel_texts" translatable="false">
+        <item>@string/settings_update_channel_stable</item>
+        <item>@string/settings_update_channel_beta</item>
+        <item>@string/settings_update_channel_nightly</item>
+    </string-array>
+
+    <string-array name="update_channel_values" translatable="false">
+        <item>CHANNEL_STABLE</item>
+        <item>CHANNEL_BETA</item>
+        <item>CHANNEL_NIGHTLY</item>
+    </string-array>
+
+</resources>
